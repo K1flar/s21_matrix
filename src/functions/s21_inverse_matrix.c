@@ -11,13 +11,13 @@ int s21_inverse_matrix(matrix_t *A, matrix_t *result) {
   s21_determinant(A, &det);
   if (A->columns != A->rows || det == 0) return CALCULATION_ERROR;
 
-  s21_create_matrix(A->rows, A->columns, result);
-
   s21_calc_complements(A, result);
 
   matrix_t trans;
   s21_transpose(result, &trans);
+  s21_remove_matrix(result);
   s21_mult_number(&trans, 1 / det, result);
+  s21_remove_matrix(&trans);
 
   return OK;
 }

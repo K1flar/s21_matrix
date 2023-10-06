@@ -6,9 +6,11 @@ double s21_recursiveDeterminant(matrix_t A) {
     return A.matrix[0][0] * A.matrix[1][1] - A.matrix[0][1] * A.matrix[1][0];
 
   double res = 0;
-  for (int i = 0; i < A.columns; i++)
-    res += pow(-1, i) * A.matrix[0][i] *
-           s21_recursiveDeterminant(s21_matrixCutCopy(A, 0, i));
+  for (int i = 0; i < A.columns; i++) {
+    matrix_t copy = s21_matrixCutCopy(A, 0, i);
+    res += pow(-1, i) * A.matrix[0][i] * s21_recursiveDeterminant(copy);
+    s21_remove_matrix(&copy);
+  }
   return res;
 }
 
